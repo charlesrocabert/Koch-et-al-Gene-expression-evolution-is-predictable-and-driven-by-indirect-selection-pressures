@@ -163,7 +163,19 @@ source_list = filter(SNP_dataset, significant_sg_pool==1)$ID
 run_permutations_test(SNP_dataset, "isFullyParallel", "ID", source_list, 10000, "sum")
 
 #-------------------------------------------------------#
-# 7) Are eQTL carriers more parallel?                   #
+# 7) Are highest sg genes enriched in parallel AFC?     #
+#-------------------------------------------------------#
+source_list = filter(SNP_dataset, highest_sg_pool==1)$ID
+run_permutations_test(SNP_dataset, "isFullyParallel", "ID", source_list, 10000, "sum")
+
+#-------------------------------------------------------#
+# 8) Are significant DE genes enriched in parallel AFC? #
+#-------------------------------------------------------#
+source_list = filter(SNP_dataset, significant_de_pool==1)$ID
+run_permutations_test(SNP_dataset, "isFullyParallel", "ID", source_list, 10000, "sum")
+
+#-------------------------------------------------------#
+# 9) Are eQTL carriers more parallel?                   #
 #-------------------------------------------------------#
 X = table(gene_dataset$isFullyParallel, gene_dataset$eQTL_carrier)
 chisq.test(X)
