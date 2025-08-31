@@ -47,7 +47,7 @@ The pipeline was first designed to be deployed on the <a href="https://www.csc.f
 
 To re-run the pipeline, please follow the steps below:
 
-**(1)** Download the latest version of this repository on your local computer ([here](https://github.com/charlesrocabert/Koch-et-al-Predictability-of-Gene-Expression/archive/refs/heads/main.zip)),
+**(1)** Download ([the latest version of this repository](https://github.com/charlesrocabert/Koch-et-al-Predictability-of-Gene-Expression/archive/refs/heads/main.zip)) on your local computer,
 
 **(2)** Download the `data.tar.gz` file from [https://doi.org/10.5281/zenodo.15298510](https://doi.org/10.5281/zenodo.15298510), uncompress it and include it to the repository as following:
 
