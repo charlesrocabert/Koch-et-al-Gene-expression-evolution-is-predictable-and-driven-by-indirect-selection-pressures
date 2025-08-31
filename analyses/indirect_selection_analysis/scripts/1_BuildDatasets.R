@@ -64,7 +64,7 @@ load_eQTLs <- function( phenotype )
 }
 
 ### Build the SNP dataset ###
-build_SNP_dataset <- function( eQTLs )
+build_SNP_dataset <- function( eQTLs, mixed_lines=TRUE )
 {
   #-------------------#
   # 1) Load datasets  #
@@ -81,24 +81,18 @@ build_SNP_dataset <- function( eQTLs )
   L3_SIGNIF  = readRDS("./data/tribolium_afc/signifSNP_AFC/signifSNP_AFC_L3.rds")
   L5_SIGNIF  = readRDS("./data/tribolium_afc/signifSNP_AFC/signifSNP_AFC_L5.rds")
   L6_SIGNIF  = readRDS("./data/tribolium_afc/signifSNP_AFC/signifSNP_AFC_L6.rds")
-  Mx1_SIGNIF = readRDS("./data/tribolium_afc/signifSNP_AFC/signifSNP_AFC_Mx1.rds")
-  Mx2_SIGNIF = readRDS("./data/tribolium_afc/signifSNP_AFC/signifSNP_AFC_Mx2.rds")
   ########################################
   L1_SIGNIF  = as.data.frame(L1_SIGNIF$alpha05)
   L2_SIGNIF  = as.data.frame(L2_SIGNIF$alpha05)
   L3_SIGNIF  = as.data.frame(L3_SIGNIF$alpha05)
   L5_SIGNIF  = as.data.frame(L5_SIGNIF$alpha05)
   L6_SIGNIF  = as.data.frame(L6_SIGNIF$alpha05)
-  Mx1_SIGNIF = as.data.frame(Mx1_SIGNIF$alpha05)
-  Mx2_SIGNIF = as.data.frame(Mx2_SIGNIF$alpha05)
   ########################################
   names(L1_SIGNIF)  = c("index", "pvalue")
   names(L2_SIGNIF)  = c("index", "pvalue")
   names(L3_SIGNIF)  = c("index", "pvalue")
   names(L5_SIGNIF)  = c("index", "pvalue")
   names(L6_SIGNIF)  = c("index", "pvalue")
-  names(Mx1_SIGNIF) = c("index", "pvalue")
-  names(Mx2_SIGNIF) = c("index", "pvalue")
   ########################################
   L1_SIGNIF$index   = as.numeric(L1_SIGNIF$index)
   L1_SIGNIF$pvalue  = as.numeric(L1_SIGNIF$pvalue)
@@ -110,10 +104,22 @@ build_SNP_dataset <- function( eQTLs )
   L5_SIGNIF$pvalue  = as.numeric(L5_SIGNIF$pvalue)
   L6_SIGNIF$index   = as.numeric(L6_SIGNIF$index)
   L6_SIGNIF$pvalue  = as.numeric(L6_SIGNIF$pvalue)
-  Mx1_SIGNIF$index  = as.numeric(Mx1_SIGNIF$index)
-  Mx1_SIGNIF$pvalue = as.numeric(Mx1_SIGNIF$pvalue)
-  Mx2_SIGNIF$index  = as.numeric(Mx2_SIGNIF$index)
-  Mx2_SIGNIF$pvalue = as.numeric(Mx2_SIGNIF$pvalue)
+  ########################################
+  Mx1_SIGNIF = data.frame()
+  Mx2_SIGNIF = data.frame()
+  if (mixed_lines)
+  {
+    Mx1_SIGNIF        = readRDS("./data/tribolium_afc/signifSNP_AFC/signifSNP_AFC_Mx1.rds")
+    Mx2_SIGNIF        = readRDS("./data/tribolium_afc/signifSNP_AFC/signifSNP_AFC_Mx2.rds")
+    Mx1_SIGNIF        = as.data.frame(Mx1_SIGNIF$alpha05)
+    Mx2_SIGNIF        = as.data.frame(Mx2_SIGNIF$alpha05)
+    names(Mx1_SIGNIF) = c("index", "pvalue")
+    names(Mx2_SIGNIF) = c("index", "pvalue")
+    Mx1_SIGNIF$index  = as.numeric(Mx1_SIGNIF$index)
+    Mx1_SIGNIF$pvalue = as.numeric(Mx1_SIGNIF$pvalue)
+    Mx2_SIGNIF$index  = as.numeric(Mx2_SIGNIF$index)
+    Mx2_SIGNIF$pvalue = as.numeric(Mx2_SIGNIF$pvalue)
+  }
   
   ### Load SNP annotation ###
   ANNOTATION        = read.table("./data/tribolium_snp/snp_table_ALL_Tcas3.30_raw_SNP.csv", h=T, sep="\t")
@@ -182,13 +188,19 @@ build_SNP_dataset <- function( eQTLs )
   DATA$L3_shift            = as.numeric(DATA$ID%in%DATA$ID[L3_SIGNIF$index])
   DATA$L5_shift            = as.numeric(DATA$ID%in%DATA$ID[L5_SIGNIF$index])
   DATA$L6_shift            = as.numeric(DATA$ID%in%DATA$ID[L6_SIGNIF$index])
-  DATA$Mx1_shift           = as.numeric(DATA$ID%in%DATA$ID[Mx1_SIGNIF$index])
-  DATA$Mx2_shift           = as.numeric(DATA$ID%in%DATA$ID[Mx2_SIGNIF$index])
-  DATA$Parallelism         = DATA$L1_shift+DATA$L2_shift+DATA$L3_shift+DATA$L5_shift+DATA$L6_shift+DATA$Mx1_shift+DATA$Mx2_shift
+  DATA$Parallelism         = DATA$L1_shift+DATA$L2_shift+DATA$L3_shift+DATA$L5_shift+DATA$L6_shift
   DATA$isShifting          = as.numeric(DATA$Parallelism>0)
-  DATA$isPartiallyParallel = as.numeric(DATA$Parallelism>1 & DATA$Parallelism<5)
-  DATA$isFullyParallel     = as.numeric(DATA$Parallelism>4)
-  
+  DATA$isPartiallyParallel = as.numeric(DATA$Parallelism>1 & DATA$Parallelism<4)
+  DATA$isFullyParallel     = as.numeric(DATA$Parallelism>3)
+  if (mixed_lines)
+  {
+    DATA$Mx1_shift           = as.numeric(DATA$ID%in%DATA$ID[Mx1_SIGNIF$index])
+    DATA$Mx2_shift           = as.numeric(DATA$ID%in%DATA$ID[Mx2_SIGNIF$index])
+    DATA$Parallelism         = DATA$Parallelism+DATA$Mx1_shift+DATA$Mx2_shift
+    DATA$isShifting          = as.numeric(DATA$Parallelism>0)
+    DATA$isPartiallyParallel = as.numeric(DATA$Parallelism>1 & DATA$Parallelism<5)
+    DATA$isFullyParallel     = as.numeric(DATA$Parallelism>4)
+  }
   ### Build parallel categories ###
   DATA$Parallel_category = as.character(DATA$Parallelism)
   DATA$Parallel_category[DATA$Parallel_category=="0"] = "No shift"
@@ -486,7 +498,7 @@ setwd("../../..")
 # 1) Build the new datasets                    #
 #----------------------------------------------#
 eQTLs                  = load_eQTLs("EXPRESSION")
-SNP_dataset            = build_SNP_dataset(eQTLs)
+SNP_dataset            = build_SNP_dataset(eQTLs, mixed_lines=TRUE)
 gene_dataset           = build_gene_dataset(SNP_dataset, eQTLs)
 eQTL_dataset           = build_eQTL_dataset(SNP_dataset, gene_dataset, eQTLs)
 eQTL_carrier_dataset   = build_eQTL_carrier_dataset(eQTL_dataset, gene_dataset)
