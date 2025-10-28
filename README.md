@@ -5,7 +5,7 @@
 </p>
 
 <p align="justify">
-This repository contains the complete transcriptomics pipeline, as well as post-analysis scripts, developed for the manuscript <strong><em>Gene expression evolution is predicted by stronger indirect selection at more pleiotropic genes</em></strong> (https://doi.org/10.1101/2024.07.22.604294). The pipeline addresses various facets of the transcriptomics data obtained from the <em>Tribolium castaneum</em> laboratory adaptive experiment published in <a href="https://doi.org/10.1371/journal.pgen.1008768">Koch & Guillaume (2020a)</a>, <a href="https://doi.org/10.1111/mec.15607">Koch & Guillaume (2020b)</a> and <a href="https://doi.org/10.1111/evo.14119">Koch et al. (2020)</a>.
+This repository contains the complete transcriptomics pipeline, as well as post-analysis scripts, developed for the manuscript <strong><em>Gene expression evolution is predicted by stronger indirect selection at more pleiotropic genes</em></strong> (see <a href="https://doi.org/10.1093/evlett/qraf039">Evolution Letters, 2025</a>). The pipeline addresses various facets of the transcriptomics data obtained from the <em>Tribolium castaneum</em> laboratory adaptive experiment published in <a href="https://doi.org/10.1371/journal.pgen.1008768">Koch & Guillaume (2020a)</a>, <a href="https://doi.org/10.1111/mec.15607">Koch & Guillaume (2020b)</a> and <a href="https://doi.org/10.1111/evo.14119">Koch et al. (2020)</a>.
 </p>
 
 <p align="justify">
@@ -18,6 +18,7 @@ The pipeline was first designed to be deployed on the <a href="https://www.csc.f
 
 # Table of contents
 - [Authors](#authors)
+- [Citation](#citation)
 - [Usage](#usage)
 - [Overview](#overview)
 - [Dependencies](#dependencies)
@@ -42,6 +43,26 @@ The pipeline was first designed to be deployed on the <a href="https://www.csc.f
 - Charles Rocabert (https://orcid.org/0000-0002-9224-5819)
 - Eva L. Koch (https://orcid.org/0000-0001-8366-4897)
 - Frédéric Guillaume (https://orcid.org/0000-0003-0874-0081)
+
+# Citation <a name="citation"></a>
+
+Please cite our 2025 publication: <a href="https://doi.org/10.1093/evlett/qraf039">[Evolution Letters, 2025](https://doi.org/10.1093/evlett/qraf039)</a>.
+
+```txt
+@article{10.1093/evlett/qraf039,
+    author = {Koch, Eva L and Rocabert, Charles and Beeravolu Reddy, Champak and Guillaume, Frédéric},
+    title = {Gene expression evolution is predicted by stronger indirect selection at more pleiotropic genes},
+    journal = {Evolution Letters},
+    pages = {qraf039},
+    year = {2025},
+    month = {10},
+    abstract = {Changes in gene expression levels are central to adaptation, yet predicting and understanding their evolution remains challenging. Here, we used transcriptome-wide variation in the red flour beetle Tribolium castaneum to identify genes under selection for expression changes during adaptation to heat and drought stress and to uncover the mechanisms driving these changes. We found that estimates of genetic selection on expression levels were predictive of their evolutionary changes after 20 generations across seven independent selection lines. Evolution was largely caused by indirect selection acting on genetically correlated genes rather than by direct selection on individual genes. Consequently, central genes in co-expression networks experienced stronger selection and larger expression changes. Our genomic analysis revealed that selection on expression levels is associated with parallel allele frequency changes in the respective genes, especially in pleiotropic genes and those carrying expression quantitative trait loci, with stronger genetic selection corresponding to greater parallelism. Contrary to previous evidence of constrained evolution at more connected genes, adaptation was driven by selection acting disproportionately on genes central to co-expression gene networks. Overall, our results demonstrated that selection measured at the transcriptome level not only predicts future gene expression evolution but also provides mechanistic insight into the genetic architecture of adaptation.},
+    issn = {2056-3744},
+    doi = {10.1093/evlett/qraf039},
+    url = {https://doi.org/10.1093/evlett/qraf039},
+    eprint = {https://academic.oup.com/evlett/advance-article-pdf/doi/10.1093/evlett/qraf039/64957241/qraf039.pdf},
+}
+```
 
 # Usage
 
